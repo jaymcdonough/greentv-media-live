@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenTV • TRUTH. SOLUTIONS. ACTION.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Square Web Payments SDK (production) for greentv.media / greentv.app payments -->
+    <script src="https://js.squareup.com/v2/paymentform"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --green: #0F4C3A;
+            --gold: #C5A46E;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .square-badge { background: #00A0E3; color: white; padding: 1px 6px; border-radius: 9999px; font-size: 9px; }
+        .green-gradient {
+            background: linear-gradient(135deg, #0F4C3A 0%, #1A5F4A 100%);
+        }
+
+        .gold-accent {
+            color: #C5A46E;
+        }
+
+        .section-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .section-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .nav-link {
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: #C5A46E;
+        }
+
+        .modal {
+            animation: modalPop 0.2s ease forwards;
+        }
+
+        .action-button {
+            transition: all 0.2s ease;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .path-card {
+            transition: all 0.3s ease;
+        }
+        
+        .path-card:hover {
+            transform: scale(1.02);
+            border-color: #C5A46E;
+        }
+
+        .trust-badge {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .flow-step {
+            transition: all 0.3s ease;
+        }
+
+        .result-action {
+            animation: slideUp 0.4s ease forwards;
+        }
+
+        .onboarding-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .greentv-green {
+            color: #0F4C3A;
+        }
+    </style>
+</head>
+<body class="bg-[#F8F5F0] text-[#1F2A24]">
+    <!-- NAV -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-[#0F4C3A] rounded-xl flex items-center justify-center">
+                    <span class="text-white font-bold text-2xl tracking-tighter">G</span>
+                </div>
+                <div>
+                    <span class="font-semibold text-2xl tracking-tight">GreenTV</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#paths" class="nav-link text-[#1F2A24] hover:text-[#0F4C3A]">Choose Your Path</a>
+                <a href="#olivia" class="nav-link text-[#1F2A24] hover:text-[#0F4C3A]">Olivia Green Interviews</a>
+                <a href="#invest" class="nav-link text-[#1F2A24] hover:text-[#0F4C3A]">Invest</a>
+                <a href="#build" class="nav-link text-[#1F2A24] hover:text-[#0F4C3A]">Build &amp; Automate</a>
+            </div>
+            
+            <div class="flex items-center gap-x-3">
+                <button onclick="openConcierge()" 
+                        class="px-5 py-2 text-sm font-semibold rounded-2xl border border-[#0F4C3A] text-[#0F4C3A] hover:bg-[#0F4C3A] hover:text-white transition-colors">
+                    <i class="fa-solid fa-comments mr-2"></i> Talk to Mr. Onboarder
+                </button>
+                <button onclick="document.getElementById('start-journey').scrollIntoView({ behavior: 'smooth' })" 
+                        class="px-5 py-2 text-sm font-semibold bg-[#0F4C3A] text-white rounded-2xl hover:bg-[#1A5F4A] transition-colors">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="green-gradient text-white">
+        <div class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
+            <div class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur px-4 py-1.5 rounded-3xl mb-6 text-sm font-medium">
+                <div class="w-2 h-2 bg-[#C5A46E] rounded-full animate-pulse"></div>
+                <span>COMMS LIVE • R2 TUNNEL • VPS ORCHESTRATOR ACTIVE</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter heading-font mb-4">
+                TRUTH.<br>SOLUTIONS.<br>ACTION.
+            </h1>
+            <p class="max-w-xl mx-auto text-xl text-white/90 mb-8">
+                The independent media platform where real voices become news segments, 
+                custom channels, and revenue-generating automated systems — with almost zero barriers.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="document.getElementById('start-journey').scrollIntoView({ behavior: 'smooth' })" 
+                        class="px-8 py-4 bg-white text-[#0F4C3A] font-semibold rounded-3xl text-lg flex items-center justify-center gap-x-3 hover:bg-[#F8F5F0] transition-all shadow-lg">
+                    <span>Start Your Journey</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button onclick="showCreatorFlow()" 
+                        class="px-8 py-4 border-2 border-white/70 hover:bg-white/10 font-semibold rounded-3xl text-lg flex items-center justify-center gap-x-3 transition-all">
+                    <i class="fa-solid fa-video mr-2"></i>
+                    <span>Submit Content → Olivia Green Interview</span>
+                </button>
+            </div>
+            
+            <div class="mt-8 text-sm text-white/70 flex items-center justify-center gap-x-6">
+                <div class="flex items-center gap-x-1.5"><i class="fa-solid fa-check text-[#C5A46E]"></i> <span>Free custom channels</span></div>
+                <div class="flex items-center gap-x-1.5"><i class="fa-solid fa-check text-[#C5A46E]"></i> <span>$1,000/share investment</span></div>
+                <div class="flex items-center gap-x-1.5"><i class="fa-solid fa-check text-[#C5A46E]"></i> <span>Direct revenue from automation</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THE BIG THING - OLIVIA PATH -->
+    <div id="olivia" class="max-w-5xl mx-auto px-6 py-16 border-b border-gray-200 bg-white">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="onboarding-label text-[#C5A46E] mb-3">The Heart of GreenTV</div>
+                <h2 class="text-4xl font-semibold tracking-tight mb-4">Submit once. Get on air with Olivia Green.</h2>
+                <p class="text-xl text-[#4A5C54] mb-6">
+                    This is the easiest, highest-impact way to participate. 
+                    Your film, blog post, documentary, or story gets turned into a professional news segment 
+                    — then you receive a direct invitation to a live broadcast interview with our AI news anchor, <strong>Olivia Green</strong>.
+                </p>
+                
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <div class="bg-[#F8F5F0] px-4 py-2 rounded-2xl text-sm font-medium flex items-center gap-x-2">
+                        <i class="fa-solid fa-broadcast-tower text-[#0F4C3A]"></i>
+                        <span>Minimal oversight required</span>
+                    </div>
+                    <div class="bg-[#F8F5F0] px-4 py-2 rounded-2xl text-sm font-medium flex items-center gap-x-2">
+                        <i class="fa-solid fa-leaf text-[#0F4C3A]"></i>
+                        <span>Essential to staying truly green</span>
+                    </div>
+                </div>
+                
+                <button onclick="showCreatorFlow()" 
+                        class="px-7 py-3.5 bg-[#0F4C3A] text-white font-semibold rounded-3xl flex items-center gap-x-3 hover:bg-[#1A5F4A] transition-colors text-lg">
+                    <span>Submit Your Content Now</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="bg-[#0F4C3A] rounded-3xl p-8 text-white">
+                <div class="text-sm font-semibold text-[#C5A46E] mb-4">HOW IT WORKS</div>
+                <div class="space-y-5 text-sm">
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 rounded-full bg-white/10 flex-shrink-0 flex items-center justify-center text-xs font-bold mt-0.5">1</div>
+                        <div>Upload or link your film, post, video + title, write-up, category, and links.</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 rounded-full bg-white/10 flex-shrink-0 flex items-center justify-center text-xs font-bold mt-0.5">2</div>
+                        <div>We insert it into the blog engine. The video pipeline automatically generates a news segment.</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 rounded-full bg-white/10 flex-shrink-0 flex items-center justify-center text-xs font-bold mt-0.5">3</div>
+                        <div>You receive an email invitation to join a live broadcast interview with Olivia Green.</div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-6 border-t border-white/20 text-xs text-white/70">
+                    This flow requires almost no investment from you and creates real participation that powers the entire platform.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHOOSE YOUR PATH -->
+    <div id="paths" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="text-center mb-10">
+            <div class="onboarding-label text-[#C5A46E]">Direct Action Paths</div>
+            <h2 class="text-4xl font-semibold tracking-tight mt-1">Tell us who you are. We'll route you to the exact next action.</h2>
+            <p class="mt-3 text-[#4A5C54] max-w-md mx-auto">Every submission leads to a concrete step you can take immediately — buy, submit, sign up, or negotiate.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Creator / Filmmaker -->
+            <div onclick="showCreatorFlow()" class="path-card bg-white border border-gray-200 rounded-3xl p-6 cursor-pointer group">
+                <div class="w-11 h-11 bg-[#0F4C3A] text-white rounded-2xl flex items-center justify-center mb-5 group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-film text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl mb-2">Actor, Filmmaker or Content Creator</h3>
+                <p class="text-sm text-[#4A5C54] mb-4">Submit your movie, blog post, or video. Get it turned into a news segment + live interview with Olivia Green.</p>
+                <div class="text-xs font-semibold text-[#0F4C3A] flex items-center gap-x-1.5">
+                    START SUBMISSION <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                </div>
+            </div>
+
+            <!-- Card 2: Investor -->
+            <div onclick="showInvestorFlow()" class="path-card bg-white border border-gray-200 rounded-3xl p-6 cursor-pointer group">
+                <div class="w-11 h-11 bg-[#C5A46E] text-white rounded-2xl flex items-center justify-center mb-5 group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-chart-line text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl mb-2">Investor or Sponsor</h3>
+                <p class="text-sm text-[#4A5C54] mb-4">Buy shares at $1,000 each. Or propose a custom investment amount. We negotiate deals and create on-the-fly products.</p>
+                <div class="text-xs font-semibold text-[#0F4C3A] flex items-center gap-x-1.5">
+                    EXPLORE INVESTMENT OPTIONS <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                </div>
+            </div>
+
+            <!-- Card 3: Channel / Free User -->
+            <div onclick="showChannelFlow()" class="path-card bg-white border border-gray-200 rounded-3xl p-6 cursor-pointer group">
+                <div class="w-11 h-11 bg-[#0F4C3A] text-white rounded-2xl flex items-center justify-center mb-5 group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-tv text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl mb-2">Just a normal user — want my own channel</h3>
+                <p class="text-sm text-[#4A5C54] mb-4">Start with a free custom GreenTV channel. Upgrade through membership levels or connect to greentv.app automation.</p>
+                <div class="text-xs font-semibold text-[#0F4C3A] flex items-center gap-x-1.5">
+                    GET YOUR CHANNEL <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                </div>
+            </div>
+
+            <!-- Card 4: Journalist / Activist / TV Owner -->
+            <div onclick="showJournalistActivistFlow()" class="path-card bg-white border border-gray-200 rounded-3xl p-6 cursor-pointer group">
+                <div class="w-11 h-11 bg-[#C5A46E] text-white rounded-2xl flex items-center justify-center mb-5 group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-pen-nib text-xl"></i>
+                </div>
+                <h3 class="font-semibold text-xl mb-2">Journalist, Activist or TV Show Owner</h3>
+                <p class="text-sm text-[#4A5C54] mb-4">We accommodate almost anything. Custom automation setups, partnerships, or high-impact content pipelines.</p>
+                <div class="text-xs font-semibold text-[#0F4C3A] flex items-center gap-x-1.5">
+                    TALK TO US <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVESTMENT HIGHLIGHT -->
+    <div id="invest" class="bg-white py-16 border-y border-gray-200">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3">
+                    <div class="onboarding-label text-[#C5A46E]">INVESTMENT OPPORTUNITY</div>
+                    <h2 class="text-4xl font-semibold tracking-tight mt-2">Own a piece of independent truth media.</h2>
+                    <p class="mt-4 text-lg text-[#4A5C54]">Shares currently available at <span class="font-semibold text-[#0F4C3A]">$1,000 per share</span>.</p>
+                    
+                    <div class="mt-6 space-y-3 text-sm">
+                        <div class="flex gap-3"><i class="fa-solid fa-check text-[#C5A46E] mt-1"></i> <span>Direct participation in revenue from automation and content</span></div>
+                        <div class="flex gap-3"><i class="fa-solid fa-check text-[#C5A46E] mt-1"></i> <span>Supports creators getting paid through Olivia Green segments and interviews</span></div>
+                        <div class="flex gap-3"><i class="fa-solid fa-check text-[#C5A46E] mt-1"></i> <span>Custom deals and larger investments negotiated with human approval for amounts over $1,000</span></div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 bg-[#F8F5F0] rounded-3xl p-7">
+                    <div class="text-sm font-semibold mb-1">STANDARD ENTRY</div>
+                    <div class="text-5xl font-semibold tracking-tighter mb-1">$1,000</div>
+                    <div class="text-sm text-[#4A5C54] mb-5">per share • immediate action available</div>
+                    
+                    <button onclick="showInvestorFlow()" 
+                            class="w-full py-3.5 bg-[#0F4C3A] hover:bg-[#1A5F4A] text-white font-semibold rounded-2xl transition-colors">
+                        Buy Shares Now
+                    </button>
+                    
+                    <div class="text-center text-xs mt-3 text-[#4A5C54]">Or propose a custom amount → we create the product on the fly</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUILD & AUTOMATE -->
+    <div id="build" class="max-w-5xl mx-auto px-6 py-16">
+        <div class="text-center mb-10">
+            <div class="onboarding-label text-[#C5A46E]">POWERFUL AUTOMATION</div>
+            <h2 class="text-4xl font-semibold tracking-tight">Hook up your accounts and sites. Generate real money.</h2>
+            <p class="max-w-lg mx-auto mt-3 text-[#4A5C54]">The same system that powers GreenTV can be deployed for you on greentv.app. We negotiate custom setups.</p>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-3xl p-8">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-semibold mb-3">What greentv.app automation can do for you:</h4>
+                    <ul class="space-y-2 text-sm text-[#4A5C54]">
+                        <li class="flex gap-2"><i class="fa-solid fa-robot text-[#0F4C3A] mt-1"></i> <span>Automated news segments and video pipelines from your sources</span></li>
+                        <li class="flex gap-2"><i class="fa-solid fa-robot text-[#0F4C3A] mt-1"></i> <span>Content distribution across multiple platforms</span></li>
+                        <li class="flex gap-2"><i class="fa-solid fa-robot text-[#0F4C3A] mt-1"></i> <span>Revenue generation when connected to your accounts and sites</span></li>
+                        <li class="flex gap-2"><i class="fa-solid fa-robot text-[#0F4C3A] mt-1"></i> <span>Custom AI anchors, lower thirds, and full production workflows</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <button onclick="showChannelFlow()" class="w-full py-4 bg-[#C5A46E] hover:bg-[#B38A4E] transition-colors text-white font-semibold rounded-2xl mb-3">
+                        Get a Free Custom Channel + Automation Consultation
+                    </button>
+                    <button onclick="showCustomAutomationModal()" class="w-full py-4 border border-[#0F4C3A] text-[#0F4C3A] font-semibold rounded-2xl hover:bg-[#F8F5F0]">
+                        Tell us exactly what you want to automate
+                    </button>
+                    <div class="text-xs text-center mt-3 text-[#4A5C54]">We accommodate almost anything. We negotiate and make the deal work for both sides.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SMART ONBOARDER / CLASSIFIER -->
+    <div class="max-w-5xl mx-auto px-6 pb-20">
+        <div class="bg-white border border-gray-200 rounded-3xl p-8">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-2/5">
+                    <div class="onboarding-label text-[#C5A46E]">MR. ONBOARDER</div>
+                    <h3 class="text-2xl font-semibold tracking-tight">Quick classifier — 30 seconds</h3>
+                    <p class="text-sm mt-2 text-[#4A5C54]">Answer a few questions and we'll give you the exact direct action to take right now.</p>
+                    
+                    <button onclick="openConcierge()" class="mt-6 px-6 py-3 bg-[#0F4C3A] text-white rounded-2xl font-semibold flex items-center gap-x-2 hover:bg-[#1A5F4A]">
+                        <i class="fa-solid fa-magic"></i>
+                        <span>Launch Smart Intake</span>
+                    </button>
+                </div>
+                
+                <div class="md:w-3/5 text-sm">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('creator')">Actor / Filmmaker / Creator</div>
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('investor')">Investor / Sponsor</div>
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('journalist')">Journalist / Activist</div>
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('channel')">Normal user / Custom channel</div>
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('tv')">TV Show Owner</div>
+                        <div class="border rounded-2xl p-3 cursor-pointer hover:border-[#C5A46E]" onclick="quickClassify('other')">Something else — negotiate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER / CONTINUITY -->
+    <footer class="bg-[#0F4C3A] text-white/90 text-sm">
+        <div class="max-w-5xl mx-auto px-6 py-10">
+            <div class="flex flex-col md:flex-row justify-between gap-y-6">
+                <div>
+                    <div class="flex items-center gap-x-2 mb-3">
+                        <span class="font-semibold text-white">GreenTV</span>
+                        <span class="text-xs px-2 py-0.5 rounded bg-white/10">TRIAD ACTIVE</span>
+                    </div>
+                    <div class="text-xs max-w-xs">Email + Telegram + R2 tunnel + repo continuity. Never depends on any single model or person.</div>
+                </div>
+                <div class="text-xs space-y-1">
+                    <div>Human oversight: Jay (approvals &amp; escalation)</div>
+                    <div>Creative lane: Grok (xAI) on desktop</div>
+                    <div>Automation: WSL + VPS orchestrator</div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-white/20 text-xs flex flex-col md:flex-row gap-y-2 justify-between text-white/60">
+                <div>Prototype for greentv.media • All content can live in the WordPress editor</div>
+                <div>Direct actions only. No fluff.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CREATOR / FILMMAKER MODAL -->
+    <div id="creator-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4" onclick="if (event.target.id === 'creator-modal') closeModal('creator-modal')">
+        <div class="modal bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto" onclick="event.stopImmediatePropagation()">
+            <div class="p-7">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <span class="onboarding-label text-[#C5A46E]">CONTENT CREATOR PATH</span>
+                        <h3 class="text-2xl font-semibold">Submit for Olivia Green Segment + Interview</h3>
+                    </div>
+                    <button onclick="closeModal('creator-modal')" class="text-3xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
+                </div>
+
+                <form id="creator-form" onsubmit="submitCreatorForm(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">YOUR NAME / HANDLE</label>
+                            <input type="text" id="creator-name" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">EMAIL (for interview invite)</label>
+                            <input type="email" id="creator-email" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">TITLE OF YOUR CONTENT</label>
+                        <input type="text" id="creator-title" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]">
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">WRITE-UP / DESCRIPTION</label>
+                        <textarea id="creator-writeup" rows="4" required class="w-full border border-gray-300 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-[#0F4C3A]" placeholder="What is this about? Why does it matter?"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">CATEGORY</label>
+                            <select id="creator-category" class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]">
+                                <option value="Documentary">Documentary / Film</option>
+                                <option value="News">Investigative / News</option>
+                                <option value="Opinion">Opinion / Analysis</option>
+                                <option value="Activism">Activism / Solutions</option>
+                                <option value="Interview">Interview / Profile</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">YOUR ROLE</label>
+                            <select id="creator-role" class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]">
+                                <option value="Actor/Filmmaker">Actor / Filmmaker</option>
+                                <option value="Freelance Journalist">Freelance Journalist</option>
+                                <option value="Seasoned Journalist">Seasoned Journalist</option>
+                                <option value="Activist">Activist</option>
+                                <option value="TV Show Owner">TV Show Owner / Producer</option>
+                                <option value="Other Creator">Other Creator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">LINKS (YouTube, Vimeo, Google Drive, website, etc.)</label>
+                        <input type="text" id="creator-links" class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#0F4C3A]" placeholder="https://...">
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">UPLOAD IMAGE OR VIDEO (or paste public URL below)</label>
+                        <div class="flex gap-3">
+                            <input type="file" id="creator-media" class="text-sm">
+                            <input type="text" id="creator-media-url" placeholder="Or public URL" class="flex-1 border border-gray-300 rounded-2xl px-4 py-2.5 text-sm">
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button type="button" onclick="closeModal('creator-modal')" class="flex-1 py-3 border border-gray-300 rounded-2xl font-semibold text-sm">Cancel</button>
+                        <button type="submit" class="flex-1 py-3 bg-[#0F4C3A] text-white font-semibold rounded-2xl text-sm">Submit to Blog + Video Pipeline</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVESTOR MODAL -->
+    <div id="investor-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4" onclick="if (event.target.id === 'investor-modal') closeModal('investor-modal')">
+        <div class="modal bg-white rounded-3xl max-w-xl w-full" onclick="event.stopImmediatePropagation()">
+            <div class="p-7">
+                <div class="flex justify-between items-start mb-5">
+                    <div>
+                        <span class="onboarding-label text-[#C5A46E]">INVESTOR / SPONSOR PATH</span>
+                        <h3 class="text-2xl font-semibold tracking-tight">Invest in GreenTV</h3>
+                    </div>
+                    <button onclick="closeModal('investor-modal')" class="text-3xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
+                </div>
+
+                <div class="mb-6 p-4 bg-[#F8F5F0] rounded-2xl text-sm">
+                    <div class="font-semibold">Current pricing: <span class="text-[#0F4C3A]">$1,000 per share</span></div>
+                    <div class="text-[#4A5C54] mt-1">Custom amounts create on-the-fly products. Deals over $1,000 or with special terms require Jay approval.</div>
+                </div>
+
+                <form id="investor-form" onsubmit="submitInvestorForm(event)">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5">HOW MUCH WOULD YOU LIKE TO INVEST?</label>
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl font-semibold">$</div>
+                            <input type="number" id="invest-amount" value="1000" min="100" step="100" required 
+                                   class="flex-1 text-3xl font-semibold border-0 focus:ring-0 p-0 focus:outline-none" onchange="updateCustomProductPreview()">
+                            <div class="text-sm text-[#4A5C54]">USD</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <label class="block text-xs font-semibold mb-1.5">WHAT ARE YOU EXPECTING / GOALS? (helps us negotiate)</label>
+                        <textarea id="invest-goals" rows="3" class="w-full border border-gray-300 rounded-2xl px-4 py-3 text-sm" placeholder="Revenue share, content influence, branding, specific automation access, etc."></textarea>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">YOUR TYPE</label>
+                        <select id="invest-type" class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm">
+                            <option value="Investor">Investor (equity / shares)</option>
+                            <option value="Sponsor">Sponsor (branding + visibility)</option>
+                            <option value="TV Show Owner">TV Show Owner looking to partner</option>
+                            <option value="Strategic">Strategic / long-term partner</option>
+                        </select>
+                    </div>
+
+                    <div id="custom-product-preview" class="mt-5 p-4 bg-[#0F4C3A] text-white rounded-2xl text-sm hidden">
+                        <div class="font-semibold mb-1">ON-THE-FLY CUSTOM PRODUCT</div>
+                        <div id="preview-text"></div>
+                    </div>
+
+                    <!-- Square Card Container -->
+                    <div id="square-card-container" class="mt-5 p-4 bg-white rounded-2xl border border-gray-200 hidden">
+                        <div class="text-xs font-semibold mb-2 text-[#0F4C3A]">Card Details</div>
+                        <div id="sq-card"></div>
+                        <div id="sq-errors" class="text-red-600 text-sm mt-2 min-h-[1.2rem]"></div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button type="button" onclick="closeModal('investor-modal')" class="flex-1 py-3 border rounded-2xl font-semibold text-sm">Cancel</button>
+                        <button type="submit" class="flex-1 py-3 bg-[#C5A46E] text-white font-semibold rounded-2xl text-sm">Create Product Create Product &amp; Take Direct Actionamp; Pay with Square (SDK)</button>
+                    </div>
+                    <div class="text-center text-[10px] mt-3 text-[#4A5C54]">Anything over $1,000 or non-standard terms will be routed for approval.</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHANNEL / FREE USER MODAL -->
+    <div id="channel-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4" onclick="if (event.target.id === 'channel-modal') closeModal('channel-modal')">
+        <div class="modal bg-white rounded-3xl max-w-xl w-full" onclick="event.stopImmediatePropagation()">
+            <div class="p-7">
+                <div class="mb-5">
+                    <span class="onboarding-label text-[#C5A46E]">FREE USER / CHANNEL BUILDER</span>
+                    <h3 class="text-2xl font-semibold tracking-tight">Start your own custom GreenTV channel</h3>
+                </div>
+
+                <form id="channel-form" onsubmit="submitChannelForm(event)">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">NAME / BRAND</label>
+                            <input type="text" id="channel-name" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1.5">EMAIL</label>
+                            <input type="email" id="channel-email" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold mb-1.5">WHAT DO YOU WANT YOUR CHANNEL TO FOCUS ON?</label>
+                        <textarea id="channel-focus" rows="2" required class="w-full border border-gray-300 rounded-2xl px-4 py-2.5 text-sm" placeholder="Local solutions, investigative journalism, climate action, etc."></textarea>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-[#F8F5F0] rounded-2xl text-xs">
+                        <div class="font-semibold mb-2">MEMBERSHIP LEVELS (start free, upgrade anytime)</div>
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-white rounded-xl p-2"><div class="font-bold">Free</div><div class="text-[10px]">Basic channel</div></div>
+                            <div class="bg-white rounded-xl p-2"><div class="font-bold">Pro $49/mo</div><div class="text-[10px]">Automation + analytics</div></div>
+                            <div class="bg-white rounded-xl p-2"><div class="font-bold">Studio $149/mo</div><div class="text-[10px]">Full pipeline + Olivia access</div></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <label class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" id="channel-automation" class="accent-[#0F4C3A]">
+                            <span>I'm also interested in greentv.app automation to generate revenue from my own sites/accounts</span>
+                        </label>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button type="button" onclick="closeModal('channel-modal')" class="flex-1 py-3 border rounded-2xl font-semibold text-sm">Cancel</button>
+                        <button type="submit" class="flex-1 py-3 bg-[#0F4C3A] text-white font-semibold rounded-2xl text-sm">Claim My Free Channel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONCIERGE / SMART INTAKE MODAL -->
+    <div id="concierge-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4" onclick="if (event.target.id === 'concierge-modal') closeModal('concierge-modal')">
+        <div class="modal bg-white rounded-3xl max-w-lg w-full" onclick="event.stopImmediatePropagation()">
+            <div class="p-7">
+                <div class="flex justify-between mb-4">
+                    <div class="font-semibold">Mr. Onboarder • Smart Classifier</div>
+                    <button onclick="closeModal('concierge-modal')" class="text-xl text-gray-400">&times;</button>
+                </div>
+
+                <div id="concierge-step-1">
+                    <p class="text-sm mb-4">Quick questions so we can give you the single best direct action right now.</p>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <div class="text-xs font-semibold mb-1.5">PRIMARY INTEREST</div>
+                            <select id="concierge-interest" class="w-full border rounded-2xl px-4 py-2.5 text-sm">
+                                <option value="submit-content">Submit content for Olivia Green interview</option>
+                                <option value="invest">Invest / buy shares or custom deal</option>
+                                <option value="channel">Get my own free custom channel</option>
+                                <option value="automation">Build automated system on greentv.app</option>
+                                <option value="sponsor">Sponsor or partner</option>
+                                <option value="journalist">Contribute as journalist/activist</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <div class="text-xs font-semibold mb-1.5">YOUR ROLE / TYPE</div>
+                            <select id="concierge-type" class="w-full border rounded-2xl px-4 py-2.5 text-sm">
+                                <option value="normal">Just a normal user / explorer</option>
+                                <option value="freelance-journalist">Freelance Journalist</option>
+                                <option value="seasoned-journalist">Seasoned Journalist</option>
+                                <option value="activist">Activist</option>
+                                <option value="investor">Investor</option>
+                                <option value="sponsor">Sponsor</option>
+                                <option value="tv-owner">TV Show Owner</option>
+                                <option value="actor-filmmaker">Actor / Filmmaker / Content Creator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="processConcierge()" class="mt-6 w-full py-3 bg-[#0F4C3A] text-white font-semibold rounded-2xl">Give me my direct action</button>
+                </div>
+
+                <div id="concierge-result" class="hidden">
+                    <!-- JS populates this -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT / SUCCESS MODALS (reused) -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110] p-4">
+        <div class="modal bg-white rounded-3xl max-w-md w-full p-7 text-center">
+            <div class="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h3 id="success-title" class="font-semibold text-xl mb-2"></h3>
+            <div id="success-body" class="text-sm text-[#4A5C54] mb-6"></div>
+            
+            <div id="success-cta-area" class="space-y-3"></div>
+            
+            <button onclick="closeModal('success-modal')" class="mt-4 text-sm text-[#4A5C54] hover:text-[#0F4C3A]">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#C5A46E');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+        
+        function showModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        // Quick classify from the grid
+        function quickClassify(type) {
+            if (type === 'creator') {
+                showCreatorFlow();
+            } else if (type === 'investor') {
+                showInvestorFlow();
+            } else if (type === 'channel') {
+                showChannelFlow();
+            } else if (type === 'journalist' || type === 'tv' || type === 'other') {
+                showJournalistActivistFlow();
+            }
+        }
+
+        // Creator flow
+        function showCreatorFlow() {
+            showModal('creator-modal');
+        }
+        
+        function submitCreatorForm(e) {
+            e.preventDefault();
+            closeModal('creator-modal');
+            
+            const name = document.getElementById('creator-name').value;
+            const title = document.getElementById('creator-title').value;
+            const role = document.getElementById('creator-role').value;
+            
+            const successHTML = `
+                <div class="text-left">
+                    <div class="font-semibold mb-1">Submission received.</div>
+                    <div class="text-sm">Your content "${title}" has been queued for insertion into the blog engine and video pipeline.</div>
+                    
+                    <div class="mt-4 p-4 bg-[#F8F5F0] rounded-2xl text-sm">
+                        <div class="font-semibold text-[#0F4C3A]">Next direct action:</div>
+                        <div class="mt-1">You will receive an email within the next 24-48 hours with your personalized invitation to a live broadcast interview with <strong>Olivia Green</strong>.</div>
+                    </div>
+                    
+                    <div class="mt-4 text-xs text-[#4A5C54]">This is the core participation loop that keeps GreenTV truly green and community-powered. Thank you.</div>
+                </div>
+            `;
+            
+            showSuccessModal(
+                "Content Queued for Olivia Green Segment",
+                successHTML,
+                [
+                    { text: "Share this opportunity", action: () => alert("Share link copied (simulated). In real version this would post to Telegram/email.") },
+                    { text: "Submit another piece of content", action: () => { closeModal('success-modal'); showCreatorFlow(); } }
+                ]
+            );
+            
+            // In real system this would trigger R2 job + email via Mailman
+            console.log('[GreenTV Prototype] Creator submission:', {name, title, role});
+        }
+
+        // Investor flow
+        function showInvestorFlow() {
+            showModal('investor-modal');
+            setTimeout(updateCustomProductPreview, 50);
+        }
+        
+        function updateCustomProductPreview() {
+            const amountEl = document.getElementById('invest-amount');
+            const preview = document.getElementById('custom-product-preview');
+            const previewText = document.getElementById('preview-text');
+            if (!amountEl || !preview || !previewText) return;
+            
+            const amount = parseInt(amountEl.value) || 1000;
+            preview.classList.remove('hidden');
+            
+            let text = '';
+            if (amount <= 1000) {
+                text = `Standard purchase: ${amount} shares at $1,000 each = <strong>$${amount.toLocaleString()}</strong>. Direct checkout available.`;
+            } else {
+                text = `Custom product for $${amount.toLocaleString()}. This will be created on the fly. Over $1,000 — routed for approval after submission.`;
+            }
+            previewText.innerHTML = text;
+        }
+        
+        function submitInvestorForm(e) {
+            e.preventDefault();
+            closeModal('investor-modal');
+            
+            const amount = parseInt(document.getElementById('invest-amount').value);
+            const goals = document.getElementById('invest-goals').value || 'No specific goals provided.';
+            const type = document.getElementById('invest-type').value;
+            const isLarge = amount > 1000;
+            
+            let title = isLarge ? "Request Sent for Approval" : "Custom Product Created";
+            let body = '';
+            
+            if (isLarge) {
+                body = `
+                    <div class="text-left">
+                        <p>Your request for <strong>$${amount.toLocaleString()}</strong> (${type}) has been received.</p>
+                        <p class="mt-3 text-sm">Because this is over $1,000 or involves custom terms, it requires Jay's approval. We will get back to you within 24 hours via email or Telegram with negotiation options.</p>
+                        
+                        <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs">
+                            In the meantime: Our automation systems can be configured to generate ongoing revenue for you when connected to your existing sites and accounts.
+                        </div>
+                    </div>
+                `;
+            } else {
+                body = `
+                    <div class="text-left">
+                        <p>We've created an on-the-fly product for you: <strong>$${amount.toLocaleString()}</strong> in GreenTV shares at the current $1,000 rate.</p>
+                        
+                        <div class="mt-4">
+                            <button onclick="simulatePurchase(${amount})" class="w-full py-3 bg-[#0F4C3A] text-white font-semibold rounded-2xl text-sm">Proceed to Secure Checkout (Simulated)</button>
+                        </div>
+                        
+                        <div class="mt-3 text-xs text-[#4A5C54]">Benefits: Direct ownership + revenue participation from the automation platform that powers creators like you.</div>
+                    </div>
+                `;
+            }
+            
+            showSuccessModal(title, body, isLarge ? [
+                { text: "Check Telegram for updates", action: () => alert("In real version: opens the GREENTV TECH group") }
+            ] : []);
+        }
+        
+        function simulatePurchase(amount) {
+            closeModal('success-modal');
+            showSuccessModal(
+                "Purchase Initiated",
+                `<div class="text-left">Thank you. A secure checkout link for $${amount.toLocaleString()} has been generated and sent to your email (simulated). Your shares will be allocated immediately upon completion.</div>`,
+                [
+                    { text: "View my investor dashboard (sim)", action: () => alert("Would open dashboard in production.") }
+                ]
+            );
+        }
+
+        // Channel flow
+        function showChannelFlow() {
+            showModal('channel-modal');
+        }
+        
+        function submitChannelForm(e) {
+            e.preventDefault();
+            closeModal('channel-modal');
+            
+            const name = document.getElementById('channel-name').value;
+            const wantsAutomation = document.getElementById('channel-automation').checked;
+            
+            let body = `
+                <div class="text-left">
+                    <p>Your free custom GreenTV channel for <strong>${name}</strong> has been provisioned.</p>
+                    <p class="mt-2 text-sm">You can start posting content immediately. It will be eligible for the Olivia Green pipeline.</p>
+            `;
+            
+            if (wantsAutomation) {
+                body += `
+                    <div class="mt-4 p-4 bg-[#F8F5F0] rounded-2xl text-sm">
+                        Automation interest noted. We will follow up to discuss hooking this channel into greentv.app so it can generate revenue from your connected accounts and sites.
+                    </div>
+                `;
+            }
+            
+            body += `</div>`;
+            
+            showSuccessModal("Free Channel Claimed", body, [
+                { text: "Go to my new channel (simulated)", action: () => alert("In production this opens your personalized dashboard on greentv.media or .app") },
+                { text: "Talk about automation & revenue", action: () => { closeModal('success-modal'); showCustomAutomationModal(); } }
+            ]);
+        }
+
+        // Journalist / Activist / TV owner / complex
+        function showJournalistActivistFlow() {
+            showModal('concierge-modal');
+            // Pre-fill some values
+            setTimeout(() => {
+                const interest = document.getElementById('concierge-interest');
+                if (interest) interest.value = 'journalist';
+            }, 100);
+        }
+        
+        function showCustomAutomationModal() {
+            showModal('concierge-modal');
+            setTimeout(() => {
+                const interest = document.getElementById('concierge-interest');
+                if (interest) interest.value = 'automation';
+            }, 100);
+        }
+
+        // Concierge / Smart classifier
+        function openConcierge() {
+            showModal('concierge-modal');
+            document.getElementById('concierge-step-1').classList.remove('hidden');
+            document.getElementById('concierge-result').classList.add('hidden');
+        }
+        
+        function processConcierge() {
+            const interest = document.getElementById('concierge-interest').value;
+            const type = document.getElementById('concierge-type').value;
+            
+            const step1 = document.getElementById('concierge-step-1');
+            const resultDiv = document.getElementById('concierge-result');
+            
+            step1.classList.add('hidden');
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = `
+                <div class="text-sm">
+                    <div class="font-semibold mb-3">Based on your answers, here is your direct next action:</div>
+            `;
+            
+            let actionText = '';
+            let ctas = '';
+            
+            if (interest === 'submit-content' || type.includes('actor') || type.includes('filmmaker')) {
+                actionText = 'Submit your content right now for a news segment and Olivia Green interview. This is the highest-leverage, lowest-friction way to participate.';
+                ctas = `
+                    <button onclick="closeModal('concierge-modal'); showCreatorFlow();" class="w-full py-3 bg-[#0F4C3A] text-white rounded-2xl font-semibold text-sm mt-2">Submit Content Now → Olivia Interview</button>
+                `;
+            } else if (interest === 'invest') {
+                actionText = 'We are offering shares at $1,000 each. You can buy standard or we will create a custom product for any amount you propose.';
+                ctas = `
+                    <button onclick="closeModal('concierge-modal'); showInvestorFlow();" class="w-full py-3 bg-[#C5A46E] text-white rounded-2xl font-semibold text-sm mt-2">Open Investment Options</button>
+                `;
+            } else if (interest === 'channel' || interest === 'automation') {
+                actionText = 'Claim your free custom channel today. We can also set you up with powerful greentv.app automation that generates revenue when connected to your accounts.';
+                ctas = `
+                    <button onclick="closeModal('concierge-modal'); showChannelFlow();" class="w-full py-3 bg-[#0F4C3A] text-white rounded-2xl font-semibold text-sm mt-2">Claim Free Channel</button>
+                    <button onclick="closeModal('concierge-modal'); showCustomAutomationModal();" class="w-full py-3 mt-2 border border-[#0F4C3A] text-[#0F4C3A] rounded-2xl font-semibold text-sm">Discuss Custom Automation</button>
+                `;
+            } else if (interest === 'sponsor' || type === 'investor' || type === 'sponsor') {
+                actionText = 'Tell us your goals and budget. We negotiate custom sponsorship or investment packages (standard $1k/share or tailored).';
+                ctas = `
+                    <button onclick="closeModal('concierge-modal'); showInvestorFlow();" class="w-full py-3 bg-[#C5A46E] text-white rounded-2xl font-semibold text-sm mt-2">Start Negotiation</button>
+                `;
+            } else {
+                actionText = 'We can accommodate almost anything. Let\'s negotiate a custom path that makes sense for you and generates value for the whole ecosystem.';
+                ctas = `
+                    <button onclick="closeModal('concierge-modal'); showInvestorFlow();" class="w-full py-3 bg-[#0F4C3A] text-white rounded-2xl font-semibold text-sm mt-2">Talk Custom Deal</button>
+                `;
+            }
+            
+            resultDiv.innerHTML = `
+                <div class="text-sm">
+                    <div class="font-semibold mb-3">Recommended direct action:</div>
+                    <div class="p-4 bg-[#F8F5F0] rounded-2xl mb-4">${actionText}</div>
+                    
+                    <div class="text-xs mb-2 font-semibold">Why this matters:</div>
+                    <div class="text-xs text-[#4A5C54] mb-4">Every action here either puts real content on air with Olivia Green, puts capital to work in independent media, or connects you to revenue-generating automation.</div>
+                    
+                    ${ctas}
+                    
+                    <button onclick="closeModal('concierge-modal')" class="w-full mt-3 text-xs py-2 text-[#4A5C54]">Close</button>
+                </div>
+            `;
+        }
+
+        function showSuccessModal(title, bodyHTML, ctas = []) {
+            const modal = document.getElementById('success-modal');
+            document.getElementById('success-title').textContent = title;
+            document.getElementById('success-body').innerHTML = bodyHTML;
+            
+            const ctaArea = document.getElementById('success-cta-area');
+            ctaArea.innerHTML = '';
+            
+            ctas.forEach(cta => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full py-3 bg-[#0F4C3A] text-white font-semibold rounded-2xl text-sm action-button';
+                btn.textContent = cta.text;
+                btn.onclick = () => {
+                    cta.action();
+                };
+                ctaArea.appendChild(btn);
+            });
+            
+            modal.classList.remove('hidden');
+        }
+
+        // Keyboard escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                document.querySelectorAll('.fixed.inset-0').forEach(el => {
+                    if (!el.classList.contains('hidden')) el.classList.add('hidden');
+                });
+            }
+        });
+
+        // Boot
+        function boot() {
+            initTailwind();
+            
+            // Optional: prefill some demo data for testing (remove in production)
+            // console.log('%c[GreenTV] Prototype ready — narrowed intake + direct actions only.', 'color:#C5A46E');
+            
+            // Show a subtle hint in console for the user
+            console.log('%c[GreenTV Prototype] Updated for: user type classification → direct actions (Olivia interview path emphasized, $1000/share + custom products, automation revenue, memberships, negotiation for >$1k). All flows lead to concrete user action.', 'font-size:9px;color:#888');
+        }
+        
+        window.onload = boot;
+
+    // Square integration hook (added for payment gateway setup)
+    let squareCard = null;
+    let squarePayments = null;
+
+    function initSquareInPrototype() {
+        console.log("[GreenTV] Square Web Payments SDK loaded for prototype CTAs. See square-integration/ for full backend (process_payment.py, populate_catalog.py).");
+    
+        // Initialize Square Payments with production Application ID
+        // For sandbox testing, change to sandbox app ID and use sandbox environment
+        const APPLICATION_ID = "sq0idp-DlQo-Wshau1yyPw0VSJvag"; // Production App ID
+        const LOCATION_ID = "LKQJNQYSED812"; // Production location
+    
+        try {
+            squarePayments = Square.payments(APPLICATION_ID, "production"); // Use "sandbox" for sandbox
+            squareCard = squarePayments.card();
+            squareCard.attach("#sq-card");
+        
+            squareCard.addEventListener("cardNonceResponse", (data) => {
+                if (data.errors) {
+                    document.getElementById("sq-errors").textContent = data.errors[0].detail;
+                } else {
+                    document.getElementById("sq-errors").textContent = "";
+                    // Token received - process the payment
+                    processInvestorPayment(data.nonce);
+                }
+            });
+        
+            console.log("[GreenTV] Square card form initialized");
+        } catch (e) {
+            console.error("[GreenTV] Square init error:", e);
+        }
+    }
+
+    function showInvestorFlow() {
+        showModal('investor-modal');
+        setTimeout(updateCustomProductPreview, 50);
+        // Show card container for amounts <= 1000
+        updateCardVisibility();
+    }
+
+    function updateCardVisibility() {
+        const amount = parseInt(document.getElementById('invest-amount').value) || 1000;
+        const cardContainer = document.getElementById('square-card-container');
+        const submitBtn = document.querySelector('#investor-form button[type="submit"]');
+    
+        if (amount <= 1000) {
+            cardContainer.classList.remove('hidden');
+            if (submitBtn) submitBtn.textContent = 'Pay with Square';
+        } else {
+            cardContainer.classList.add('hidden');
+            if (submitBtn) submitBtn.textContent = 'Create Product & Request Approval';
+        }
+    }
+
+    function updateCustomProductPreview() {
+        const amountEl = document.getElementById('invest-amount');
+        const preview = document.getElementById('custom-product-preview');
+        const previewText = document.getElementById('preview-text');
+        if (!amountEl || !preview || !previewText) return;
+    
+        const amount = parseInt(amountEl.value) || 1000;
+        preview.classList.remove('hidden');
+    
+        let text = '';
+        if (amount <= 1000) {
+            text = `Standard purchase: ${amount} shares at $1,000 each = <strong>$${amount.toLocaleString()}</strong>. Direct checkout available below.`;
+        } else {
+            text = `Custom product for $${amount.toLocaleString()}. This will be created on the fly. Over $1,000 — routed for approval after submission.`;
+        }
+        previewText.innerHTML = text;
+    
+        updateCardVisibility();
+    }
+
+    async function processInvestorPayment(nonce) {
+        const amount = parseInt(document.getElementById('invest-amount').value) || 1000;
+        const goals = document.getElementById('invest-goals').value || 'No specific goals provided.';
+        const type = document.getElementById('invest-type').value;
+        const amountCents = amount * 100;
+    
+        // In production, POST to your backend endpoint that calls process_payment.py
+        // For prototype, we simulate the backend call
+        console.log("[GreenTV Prototype] Payment token received:", nonce);
+        console.log("[GreenTV Prototype] Would call backend:", { source_id: nonce, amount_cents: amountCents, note: `GreenTV Share purchase - $${amount}` });
+    
+        // Simulate successful payment
+        closeModal('investor-modal');
+    
+        // In real implementation:
+        // const response = await fetch('/api/process-payment', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ source_id: nonce, amount_cents: amountCents, note: 'GreenTV Share purchase' })
+        // });
+    
+        showSuccessModal(
+            "Purchase Complete",
+            `<div class="text-left">
+                <p>Thank you for investing <strong>$${amount.toLocaleString()}</strong> in GreenTV!</p>
+                <p class="mt-3 text-sm">Your ${amount} share(s) have been allocated. You'll receive confirmation via email.</p>
+                <div class="mt-4 p-3 bg-[#F8F5F0] rounded-2xl text-xs">
+                    Benefits activated: Revenue participation from automation platform, Olivia Green content access, community governance.
+                </div>
+            </div>`,
+            [
+                { text: "View investor dashboard (simulated)", action: () => alert("In production this opens your dashboard on greentv.media") },
+                { text: "Submit content for Olivia interview", action: () => { closeModal('success-modal'); showCreatorFlow(); } }
+            ]
+        );
+    }
+
+    function submitInvestorForm(e) {
+        e.preventDefault();
+    
+        const amount = parseInt(document.getElementById('invest-amount').value);
+        const isLarge = amount > 1000;
+    
+        if (isLarge) {
+            // For large amounts, just submit the request for approval
+            const goals = document.getElementById('invest-goals').value || 'No specific goals provided.';
+            const type = document.getElementById('invest-type').value;
+        
+            closeModal('investor-modal');
+        
+            showSuccessModal(
+                "Request Sent for Approval",
+                `<div class="text-left">
+                    <p>Your request for <strong>$${amount.toLocaleString()}</strong> (${type}) has been received.</p>
+                    <p class="mt-3 text-sm">Because this is over $1,000 or involves custom terms, it requires approval. We will get back to you within 24 hours via email or Telegram with negotiation options.</p>
+                    <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs">
+                        In the meantime: Our automation systems can be configured to generate ongoing revenue for you when connected to your existing sites and accounts.
+                    </div>
+                </div>`,
+                [
+                    { text: "Check Telegram for updates", action: () => alert("In real version: opens the GREENTV TECH group") }
+                ]
+            );
+        } else {
+            // For <= $1000, tokenize the card
+            if (squareCard) {
+                document.getElementById("sq-errors").textContent = "Processing...";
+                squareCard.tokenize();
+            } else {
+                document.getElementById("sq-errors").textContent = "Payment system not ready. Please refresh and try again.";
+            }
+        }
+    }
+
+    // Call on load
+    setTimeout(initSquareInPrototype, 1500);
+    </script>
+</body>
+</html>

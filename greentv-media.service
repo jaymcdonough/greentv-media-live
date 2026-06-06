@@ -1,0 +1,17 @@
+[Unit]
+Description=GreenTV Media Server
+After=network.target
+
+[Service]
+Type=simple
+User=greentv
+WorkingDirectory=/home/greentv/greentv-media
+Environment=PATH=/home/greentv/greentv-media/.venv/bin
+ExecStart=/home/greentv/greentv-media/.venv/bin/python server.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
