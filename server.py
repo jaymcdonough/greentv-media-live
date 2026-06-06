@@ -32,7 +32,7 @@ class PaymentRequest(BaseModel):
     location_id: str | None = None
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def main_page():
     """Serve the GreenTV prototype as the main page."""
     if os.path.exists(PROTOTYPE_PATH):
