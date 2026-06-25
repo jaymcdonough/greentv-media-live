@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GREENTV Broadcasting Kit Installer</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:#071019;color:#edf4fb;min-height:100vh;display:grid;place-items:center;padding:24px}
+    .card{width:min(920px,100%);background:linear-gradient(135deg,rgba(214,178,94,.16),rgba(57,217,138,.10));border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:28px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+    h1{margin:0 0 10px;font-size:42px}
+    p{line-height:1.6;color:#9cb0c5}
+    label{display:block;margin:18px 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d6b25e;font-weight:700}
+    input,button{font-size:16px;border-radius:14px;border:1px solid #233245;padding:14px 16px}
+    input{width:min(520px,100%);background:#08111b;color:#edf4fb}
+    button{background:linear-gradient(135deg,#d6b25e,#f1d28a);color:#09111a;font-weight:700;cursor:pointer;margin-left:10px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .small{font-size:13px;color:#9cb0c5;margin-top:16px}
+    .pill{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#d6b25e}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="pill">greentv.media / installer</div>
+    <h1>GREENTV Broadcasting Kit</h1>
+    <p>This is the client-facing installer page. Enter the password to unlock the download and install instructions while the full wizard export is still being finished.</p>
+    <form method="post" action="/installer/unlock">
+      <label for="password">Password</label>
+      <div class="row">
+        <input id="password" name="password" type="password" placeholder="Password" autofocus required>
+        <button type="submit">Unlock Installer</button>
+      </div>
+    </form>
+    <p class="small">Approved access only. Use the shared password if you were sent the link.</p>
+  </main>
+</body>
+</html>

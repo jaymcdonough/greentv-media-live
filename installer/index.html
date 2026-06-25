@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GREENTV Broadcasting Kit Installer</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:#071019;color:#edf4fb;min-height:100vh;display:grid;place-items:center;padding:24px}
+    .card{width:min(920px,100%);background:linear-gradient(135deg,rgba(214,178,94,.16),rgba(57,217,138,.10));border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:28px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+    h1{margin:0 0 10px;font-size:42px}
+    p{line-height:1.6;color:#9cb0c5}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+    .tile{background:#0f1722;border:1px solid #233245;border-radius:18px;padding:18px}
+    a.btn,button{display:inline-block;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer}
+    a.btn{background:linear-gradient(135deg,#d6b25e,#f1d28a);color:#09111a}
+    a.alt{background:linear-gradient(135deg,#dbe7f2,#f8fbff);color:#09111a}
+    .small{font-size:13px;color:#9cb0c5;margin-top:16px}
+    code{background:#08111b;border:1px solid #233245;padding:3px 8px;border-radius:8px;color:#edf4fb}
+    ul,ol{color:#9cb0c5;line-height:1.7}
+    .pill{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#d6b25e}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="pill">unlocked</div>
+    <h1>GREENTV Broadcasting Kit</h1>
+    <p>You are inside the secure installer page. Download the kit, run it on the target machine, and use the generated OBS files and startup wrapper it creates.</p>
+    <div class="grid">
+      <div class="tile">
+        <h2>Download</h2>
+        <p>Get the release package from the protected link below.</p>
+        <a class="btn" href="/installer/download">Download kit zip</a>
+      </div>
+      <div class="tile">
+        <h2>Install notes</h2>
+        <ol>
+          <li>Unzip on the target PC.</li>
+          <li>Run the installer as instructed.</li>
+          <li>Confirm the startup wrapper and OBS scene collection are created.</li>
+        </ol>
+      </div>
+      <div class="tile">
+        <h2>Status</h2>
+        <p>Path: <code>/installer/</code></p>
+        <p>Password gate: <code>greentvrocks</code></p>
+        <p class="small">This is the temporary production link until the full wizard export replaces it.</p>
+      </div>
+    </div>
+    <p class="small"><a class="alt btn" href="/installer/logout">Lock page</a></p>
+  </main>
+</body>
+</html>
