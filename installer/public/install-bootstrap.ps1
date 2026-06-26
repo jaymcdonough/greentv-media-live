@@ -12,12 +12,18 @@ $ExtractDir = Join-Path $WorkDir 'extract'
 New-Item -ItemType Directory -Force -Path $WorkDir, $ExtractDir | Out-Null
 
 function Test-ObsInstalled {
-  @(
-    Join-Path ${env:ProgramFiles} 'obs-studio\bin\64bit\obs64.exe',
-    Join-Path ${env:ProgramFiles(x86)} 'obs-studio\bin\64bit\obs64.exe',
-    Join-Path $env:LOCALAPPDATA 'Programs\obs-studio\bin\64bit\obs64.exe',
-    Join-Path $env:LOCALAPPDATA 'obs-studio\bin\64bit\obs64.exe'
-  ) | Where-Object { $_ -and (Test-Path $_) }
+  $paths = @()
+  if ($env:ProgramFiles) {
+    $paths += (Join-Path $env:ProgramFiles 'obs-studio\bin\64bit\obs64.exe')
+  }
+  if (${env:ProgramFiles(x86)}) {
+    $paths += (Join-Path ${env:ProgramFiles(x86)} 'obs-studio\bin\64bit\obs64.exe')
+  }
+  if ($env:LOCALAPPDATA) {
+    $paths += (Join-Path $env:LOCALAPPDATA 'Programs\obs-studio\bin\64bit\obs64.exe')
+    $paths += (Join-Path $env:LOCALAPPDATA 'obs-studio\bin\64bit\obs64.exe')
+  }
+  return $paths | Where-Object { $_ -and (Test-Path $_) }
 }
 
 function Install-Obs {
