@@ -9,6 +9,7 @@ $ProgressPreference = 'SilentlyContinue'
 $WorkDir = Join-Path $env:TEMP 'GREENTV_BROADCASTING_KIT'
 $ZipPath = Join-Path $WorkDir 'kit.zip'
 $ExtractDir = Join-Path $WorkDir 'extract'
+$InstallRoot = Join-Path $env:PUBLIC 'Documents\GREENTV BROADCASTING KIT'
 New-Item -ItemType Directory -Force -Path $WorkDir, $ExtractDir | Out-Null
 
 function Test-ObsInstalled {
@@ -119,31 +120,35 @@ function Invoke-KitInstall {
   Write-Host 'Extracting kit...' -ForegroundColor Cyan
   Expand-Archive -Path $ZipPath -DestinationPath $ExtractDir -Force
 
-  $InstallScript = Join-Path $ExtractDir 'payload\kit\install.ps1'
-  if (-not (Test-Path $InstallScript)) {
-    throw 'Install script not found in downloaded kit.'
+  $PackageRoot = Join-Path $ExtractDir 'payload\kit\package'
+  $TemplatePath = Join-Path $PackageRoot 'scene-collections\GREENTV_BROADCASTING_KIT.template.json'
+  if (-not (Test-Path $PackageRoot)) {
+    throw 'Package root not found in downloaded kit.'
+  }
+  if (-not (Test-Path $TemplatePath)) {
+    throw 'Scene collection template not found in downloaded kit.'
   }
 
-  $scriptText = Get-Content -Raw -Path $InstallScript
-  $oldBlock = @'
-$obsCandidates = @(
-  Join-Path ${env:ProgramFiles} ''obs-studio\bin\64bit\obs64.exe'',
-  Join-Path ${env:ProgramFiles(x86)} ''obs-studio\bin\64bit\obs64.exe''
-) | Where-Object { $_ -and (Test-Path $_) }
-'@
-  $newBlock = @'
-$obsCandidates = @(
-  Join-Path ${env:ProgramFiles} ''obs-studio\bin\64bit\obs64.exe'',
-  Join-Path ${env:ProgramFiles(x86)} ''obs-studio\bin\64bit\obs64.exe'',
-  Join-Path $env:LOCALAPPDATA ''Programs\obs-studio\bin\64bit\obs64.exe'',
-  Join-Path $env:LOCALAPPDATA ''obs-studio\bin\64bit\obs64.exe''
-) | Where-Object { $_ -and (Test-Path $_) }
-'@
-  $scriptText = $scriptText.Replace($oldBlock, $newBlock)
-  Set-Content -Path $InstallScript -Value $scriptText -Encoding UTF8
+  New-Item -ItemType Directory -Force -Path $WorkDir | Out-Null
+  New-Item -ItemType Directory -Force -Path (Join-Path $env:APPDATA 'obs-studio\basic\scenes') | Out-Null
 
-  Write-Host 'Launching GreenTV kit installer...' -ForegroundColor Cyan
-  & powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File $InstallScript -InstallRoot 'C:\Users\Public\Documents\GREENTV BROADCASTING KIT' -MakeDefault
+  Write-Host 'Copying GreenTV kit package into install root...' -ForegroundColor Cyan
+  New-Item -ItemType Directory -Force -Path $InstallRoot | Out-Null
+  Copy-Item -Path (Join-Path $PackageRoot '*') -Destination $InstallRoot -Recurse -Force
+
+  $template = Get-Content -Raw -Path $TemplatePath
+  $kitRootPath = ($InstallRoot -replace '\\', '/')
+  $kitRootUrl = $kitRootPath -replace ' ', '%20'
+  $template = $template.Replace('__KIT_ROOT_URL__', $kitRootUrl)
+  $template = $template.Replace('__KIT_ROOT__', $kitRootPath)
+
+  $sceneCollectionPath = Join-Path (Join-Path $env:APPDATA 'obs-studio\basic\scenes') 'GREENTV_BROADCASTING_KIT.json'
+  Set-Content -Path $sceneCollectionPath -Value $template -Encoding UTF8
+
+  Configure-ObsDefaults
+
+  Write-Host ('Wrote GreenTV scene collection to: ' + $sceneCollectionPath) -ForegroundColor Green
+  Write-Host ('Installed kit copied to: ' + $InstallRoot) -ForegroundColor Green
 }
 
 Write-Host 'GREENTV BROADCASTING KIT bootstrap' -ForegroundColor Green
