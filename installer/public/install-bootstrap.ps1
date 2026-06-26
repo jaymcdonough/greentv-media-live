@@ -26,6 +26,50 @@ function Test-ObsInstalled {
   return $paths | Where-Object { $_ -and (Test-Path $_) }
 }
 
+function Get-ObsExePath {
+  Test-ObsInstalled | Select-Object -First 1
+}
+
+function Configure-ObsDefaults {
+  $obsAppData = Join-Path $env:APPDATA 'obs-studio'
+  $basicDir = Join-Path $obsAppData 'basic'
+  $profilesDir = Join-Path $basicDir 'profiles'
+  $profileName = 'GreenTV'
+  $profileDir = Join-Path $profilesDir $profileName
+  $sceneCollectionName = 'GREENTV BROADCASTING KIT'
+  $sceneCollectionFile = 'GREENTV_BROADCASTING_KIT.json'
+
+  New-Item -ItemType Directory -Force -Path $profileDir | Out-Null
+  New-Item -ItemType Directory -Force -Path (Join-Path $basicDir 'scenes') | Out-Null
+
+  $basicIni = @"
+[General]
+Name=$profileName
+
+[Video]
+BaseCX=1920
+BaseCY=1080
+OutputCX=1920
+OutputCY=1080
+FPSType=0
+FPSCommon=30
+
+[Output]
+Mode=Simple
+"@
+  Set-Content -Path (Join-Path $profileDir 'basic.ini') -Value $basicIni -Encoding UTF8
+
+  $obsUserIni = Join-Path $obsAppData 'user.ini'
+  $userIni = @"
+[Basic]
+Profile=$profileName
+ProfileDir=$profileName
+SceneCollection=$sceneCollectionName
+SceneCollectionFile=$sceneCollectionFile
+"@
+  Set-Content -Path $obsUserIni -Value $userIni -Encoding UTF8
+}
+
 function Install-Obs {
   if (Test-ObsInstalled) {
     Write-Host 'OBS already installed.' -ForegroundColor Green
@@ -104,4 +148,12 @@ $obsCandidates = @(
 Write-Host 'GREENTV BROADCASTING KIT bootstrap' -ForegroundColor Green
 Install-Obs
 Invoke-KitInstall
+Configure-ObsDefaults
+$obsExe = Get-ObsExePath
+if ($obsExe) {
+  Write-Host ('Opening OBS: ' + $obsExe) -ForegroundColor Green
+  Start-Process -FilePath $obsExe | Out-Null
+} else {
+  Write-Host 'OBS executable not found after install.' -ForegroundColor Yellow
+}
 Write-Host 'Installation completed successfully.' -ForegroundColor Green
