@@ -16,12 +16,8 @@ powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -Command ^
   "$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue';" ^
   "$base='__PUBLIC_BASE_URL__';" ^
   "$work=Join-Path $env:TEMP 'GREENTV_BROADCASTING_KIT';" ^
-  "$banner=Join-Path $work 'GreenTV-ASII.ps1';" ^
   "$bootstrap=Join-Path $work 'install-bootstrap.ps1';" ^
   "New-Item -ItemType Directory -Force -Path $work | Out-Null;" ^
-  "Write-Host 'Rendering GreenTV terminal banner...';" ^
-  "Invoke-WebRequest -Uri ($base + '/public/GreenTV-ASII%20for%20terminal.txt') -OutFile $banner;" ^
-  "& powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File $banner;" ^
   "Write-Host 'Fetching GreenTV installer bootstrap...';" ^
   "Invoke-WebRequest -Uri ($base + '/public/install-bootstrap.ps1') -OutFile $bootstrap;" ^
   "Write-Host 'Starting install...';" ^
