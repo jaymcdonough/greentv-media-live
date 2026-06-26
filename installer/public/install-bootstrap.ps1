@@ -35,7 +35,7 @@ function Install-Obs {
   $winget = Get-Command winget -ErrorAction SilentlyContinue
   if ($winget) {
     Write-Host 'OBS Studio not found. Trying winget first...' -ForegroundColor Yellow
-    & winget install --id OBSProject.OBSStudio -e --accept-source-agreements --accept-package-agreements | Write-Host
+    & winget install --id OBSProject.OBSStudio -e --source winget --silent --disable-interactivity --accept-source-agreements --accept-package-agreements | Write-Host
     if ($LASTEXITCODE -eq 0 -and (Test-ObsInstalled)) {
       Write-Host 'OBS installed via winget.' -ForegroundColor Green
       return
