@@ -2,14 +2,19 @@
 #!/usr/bin/env python3
 import hashlib
 import json
+import os
 import secrets
 import sys
-from pathlib import Path
+import mimetypes
+import urllib.error
+import urllib.request
 from datetime import datetime
+from http.client import HTTPResponse
+from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, FileResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, FileResponse, Response, StreamingResponse
 from pydantic import BaseModel
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -22,18 +27,26 @@ START_HERE_INDEX_PATH = BASE_DIR / '00-START-HERE' / 'index.html'
 START_HERE_POPUP_PATH = BASE_DIR / '00-START-HERE' / 'eve-agent-popup.html'
 START_HERE_CONFIG_PATH = BASE_DIR / '00-START-HERE' / 'install-config.js'
 INSTALLER_DIR = BASE_DIR / 'installer'
+INSTALLER_PUBLIC_DIR = INSTALLER_DIR / 'public'
+INSTALLER_INSTALL_CMD_TEMPLATE_PATH = INSTALLER_PUBLIC_DIR / 'install.cmd'
+INSTALLER_TERMINAL_TEXT_PATH = INSTALLER_PUBLIC_DIR / 'GreenTV-ASII for terminal.txt'
 INSTALLER_LOGIN_PATH = INSTALLER_DIR / 'login.html'
 INSTALLER_INDEX_PATH = INSTALLER_DIR / 'index.html'
 INSTALLER_PACKAGE_PATH = INSTALLER_DIR / 'GREENTV_BROADCASTING_KIT_RELEASE_v1.0.0.zip'
 INSTALLER_PASSWORD = 'greentvrocks'
 INSTALLER_COOKIE = 'greentv_installer_token'
 INSTALLER_COOKIE_VALUE = hashlib.sha256(f'greentv-installer::{INSTALLER_PASSWORD}'.encode('utf-8')).hexdigest()
+PUBLIC_BASE_URL = os.getenv('PUBLIC_BASE_URL', 'https://greentv.media')
+GITHUB_OWNER = os.getenv('GITHUB_OWNER', '')
+GITHUB_REPO = os.getenv('GITHUB_REPO', '')
+GITHUB_ASSET_NAME = os.getenv('GITHUB_ASSET_NAME', '')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
 
 
 sys.path.append(str(BASE_DIR / 'square-integration'))
 from process_payment import process_payment, create_invoice_for_custom_deal  # noqa: E402
 
-app = FastAPI(title='GreenTV', version='1.1.0')
+app = FastAPI(title='GreenTV', version='1.2.0')
 
 
 class PaymentRequest(BaseModel):
@@ -99,6 +112,84 @@ def membership_features(level: str) -> list[str]:
         ],
     }
     return mapping.get(level, mapping['Community'])
+
+
+def installer_env() -> dict[str, str]:
+    return {
+        'PUBLIC_BASE_URL': PUBLIC_BASE_URL,
+        'GITHUB_OWNER': GITHUB_OWNER,
+        'GITHUB_REPO': GITHUB_REPO,
+        'GITHUB_ASSET_NAME': GITHUB_ASSET_NAME,
+        'GITHUB_TOKEN_PRESENT': '1' if GITHUB_TOKEN else '0',
+    }
+
+
+def render_install_cmd() -> str:
+    template = INSTALLER_INSTALL_CMD_TEMPLATE_PATH.read_text(encoding='utf-8')
+    replacements = {
+        '__PUBLIC_BASE_URL__': PUBLIC_BASE_URL,
+        '__GITHUB_OWNER__': GITHUB_OWNER,
+        '__GITHUB_REPO__': GITHUB_REPO,
+        '__GITHUB_ASSET_NAME__': GITHUB_ASSET_NAME,
+    }
+    for needle, value in replacements.items():
+        template = template.replace(needle, value)
+    return template
+
+
+def github_request(url: str, accept: str = 'application/vnd.github+json') -> urllib.request.Request:
+    headers = {
+        'Accept': accept,
+        'User-Agent': 'GreenTV-Media-Installer',
+        'X-GitHub-Api-Version': '2022-11-28',
+    }
+    if GITHUB_TOKEN:
+        headers['Authorization'] = f'Bearer {GITHUB_TOKEN}'
+    return urllib.request.Request(url, headers=headers)
+
+
+def fetch_latest_release_asset_stream() -> tuple[dict, HTTPResponse]:
+    if not (GITHUB_OWNER and GITHUB_REPO and GITHUB_ASSET_NAME):
+        raise HTTPException(status_code=503, detail='GitHub release configuration is incomplete')
+
+    release_url = f'https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/releases/latest'
+    try:
+        with urllib.request.urlopen(github_request(release_url), timeout=30) as response:
+            release = json.loads(response.read().decode('utf-8'))
+    except urllib.error.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f'GitHub release lookup failed: {exc.code}') from exc
+    except urllib.error.URLError as exc:
+        raise HTTPException(status_code=502, detail=f'GitHub release lookup failed: {exc.reason}') from exc
+
+    assets = release.get('assets') or []
+    asset = next((item for item in assets if item.get('name') == GITHUB_ASSET_NAME), None)
+    if asset is None and assets:
+        asset = assets[0]
+    if asset is None:
+        raise HTTPException(status_code=404, detail='No release assets found')
+
+    asset_url = asset.get('url')
+    if not asset_url:
+        raise HTTPException(status_code=404, detail='Release asset download URL missing')
+
+    try:
+        upstream = urllib.request.urlopen(github_request(asset_url, 'application/octet-stream'), timeout=60)
+    except urllib.error.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f'GitHub asset download failed: {exc.code}') from exc
+    except urllib.error.URLError as exc:
+        raise HTTPException(status_code=502, detail=f'GitHub asset download failed: {exc.reason}') from exc
+
+    return asset, upstream
+
+
+def public_file_response(requested_path: str) -> FileResponse:
+    safe_target = (INSTALLER_PUBLIC_DIR / requested_path).resolve()
+    public_root = INSTALLER_PUBLIC_DIR.resolve()
+    if not safe_target.is_relative_to(public_root):
+        raise HTTPException(status_code=403, detail='Forbidden')
+    if not safe_target.exists() or not safe_target.is_file():
+        raise HTTPException(status_code=404, detail='Public file not found')
+    return FileResponse(safe_target)
 
 
 def get_user_from_request(request: Request) -> dict | None:
@@ -528,42 +619,126 @@ async def api_create_invoice(
 @app.get('/installer')
 @app.get('/installer/')
 @app.get('/installer/index.html')
-async def installer_home(request: Request):
-    if not INSTALLER_INDEX_PATH.exists():
-        return HTMLResponse('<h1>Installer page not found</h1>', status_code=404)
-    if request.cookies.get(INSTALLER_COOKIE) == INSTALLER_COOKIE_VALUE:
-        return FileResponse(INSTALLER_INDEX_PATH)
-    return FileResponse(INSTALLER_LOGIN_PATH) if INSTALLER_LOGIN_PATH.exists() else HTMLResponse('<h1>Installer login page not found</h1>', status_code=404)
+@app.head('/installer')
+@app.head('/installer/')
+@app.head('/installer/index.html')
+async def installer_home():
+    return RedirectResponse('/download/install.cmd', status_code=302)
 
 
 @app.post('/installer/unlock')
-async def installer_unlock(password: str = Form(...)):
-    if password == INSTALLER_PASSWORD:
-        response = RedirectResponse('/installer', status_code=303)
-        response.set_cookie(INSTALLER_COOKIE, INSTALLER_COOKIE_VALUE, httponly=True, samesite='lax', max_age=60 * 60 * 24 * 7, path='/')
-        return response
-    return RedirectResponse('/installer', status_code=303)
-
-
-@app.get('/installer/download')
-async def installer_download(request: Request):
-    if request.cookies.get(INSTALLER_COOKIE) != INSTALLER_COOKIE_VALUE:
-        return RedirectResponse('/installer', status_code=303)
-    if INSTALLER_PACKAGE_PATH.exists():
-        return FileResponse(INSTALLER_PACKAGE_PATH, filename='GREENTV_BROADCASTING_KIT_RELEASE_v1.0.0.zip')
-    return HTMLResponse('<h1>Installer package not uploaded yet</h1>', status_code=404)
+async def installer_unlock(password: str | None = Form(None)):
+    return RedirectResponse('/download/install.cmd', status_code=302)
 
 
 @app.get('/installer/logout')
 async def installer_logout():
-    response = RedirectResponse('/installer', status_code=303)
-    response.delete_cookie(INSTALLER_COOKIE, path='/')
-    return response
+    return RedirectResponse('/download/install.cmd', status_code=302)
+
+
+@app.get('/download/install.cmd')
+@app.head('/download/install.cmd')
+async def download_install_cmd(request: Request):
+    if not INSTALLER_INSTALL_CMD_TEMPLATE_PATH.exists():
+        raise HTTPException(status_code=404, detail='install.cmd template not found')
+    headers = {
+        'Content-Disposition': 'attachment; filename="install.cmd"',
+        'Cache-Control': 'no-store',
+    }
+    if request.method == 'HEAD':
+        return Response(status_code=200, headers=headers)
+    cmd_text = render_install_cmd()
+    return Response(
+        content=cmd_text,
+        media_type='text/plain; charset=utf-8',
+        headers=headers,
+    )
+
+
+@app.get('/download/kit.zip')
+@app.head('/download/kit.zip')
+async def download_kit_zip(request: Request):
+    headers = {'Cache-Control': 'no-store'}
+    if GITHUB_OWNER and GITHUB_REPO and GITHUB_ASSET_NAME:
+        try:
+            asset, upstream = fetch_latest_release_asset_stream()
+            headers.update({
+                'Content-Disposition': f'attachment; filename="{asset.get("name", "kit.zip")}"',
+                'X-GreenTV-Installer-Source': 'github',
+            })
+            content_type = upstream.headers.get_content_type() or mimetypes.guess_type(asset.get('name', 'kit.zip'))[0] or 'application/zip'
+            if request.method == 'HEAD':
+                return Response(status_code=200, headers=headers)
+
+            def iterator():
+                with upstream:
+                    while True:
+                        chunk = upstream.read(65536)
+                        if not chunk:
+                            break
+                        yield chunk
+
+            return StreamingResponse(iterator(), media_type=content_type, headers=headers)
+        except HTTPException:
+            pass
+
+    if INSTALLER_PACKAGE_PATH.exists():
+        headers.update({'X-GreenTV-Installer-Source': 'local-fallback'})
+        if request.method == 'HEAD':
+            return Response(status_code=200, headers=headers)
+        return FileResponse(
+            INSTALLER_PACKAGE_PATH,
+            filename=INSTALLER_PACKAGE_PATH.name,
+            headers={'X-GreenTV-Installer-Source': 'local-fallback', 'Cache-Control': 'no-store'},
+        )
+
+    raise HTTPException(status_code=404, detail='Installer package not available')
+
+
+@app.get('/api/public/status')
+async def public_status():
+    return JSONResponse(
+        {
+            'status': 'ok',
+            'service': 'greentv-media-installer',
+            'public_base_url': PUBLIC_BASE_URL,
+            'routes': {
+                '/installer': '/download/install.cmd',
+                '/download/install.cmd': 'installer/public/install.cmd',
+                '/download/kit.zip': 'GitHub latest release asset',
+                '/api/public/status': 'JSON status',
+            },
+            'github': {
+                'owner': GITHUB_OWNER,
+                'repo': GITHUB_REPO,
+                'asset_name': GITHUB_ASSET_NAME,
+                'token_present': bool(GITHUB_TOKEN),
+                'configured': bool(GITHUB_OWNER and GITHUB_REPO and GITHUB_ASSET_NAME),
+            },
+            'files': {
+                'install_cmd_template': INSTALLER_INSTALL_CMD_TEMPLATE_PATH.exists(),
+                'public_terminal_file': INSTALLER_TERMINAL_TEXT_PATH.exists(),
+                'local_zip_fallback': INSTALLER_PACKAGE_PATH.exists(),
+            },
+            'generated_at': datetime.utcnow().isoformat() + 'Z',
+        }
+    )
+
+
+@app.get('/public/{requested_path:path}')
+async def installer_public_file(requested_path: str):
+    return public_file_response(requested_path)
+
+
+@app.get('/installer/download')
+async def installer_download_legacy():
+    return RedirectResponse('/download/kit.zip', status_code=302)
 
 
 @app.get('/health')
 async def health():
     return {'status': 'ok', 'service': 'greentv-media'}
+
 
 
 if __name__ == '__main__':

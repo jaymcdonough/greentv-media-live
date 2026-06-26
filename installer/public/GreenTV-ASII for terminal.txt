@@ -1,0 +1,8 @@
+GreenTV ASII for terminal
+=========================
+
+This file is intentionally public so the installer handoff can verify that the
+installer public directory is being served correctly.
+
+If you can read this over the browser or download route, the installer routes
+are wired correctly.
