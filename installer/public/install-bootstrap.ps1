@@ -40,6 +40,15 @@ function Configure-ObsDefaults {
   $sceneCollectionName = 'GREENTV BROADCASTING KIT'
   $sceneCollectionFile = 'GREENTV_BROADCASTING_KIT.json'
 
+  if (Test-Path $obsAppData) {
+    $backupDir = Join-Path $WorkDir 'obs-config-backup'
+    New-Item -ItemType Directory -Force -Path $backupDir | Out-Null
+    Copy-Item -Path $obsAppData -Destination (Join-Path $backupDir 'obs-studio') -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $basicDir -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path (Join-Path $obsAppData 'global.ini') -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path (Join-Path $obsAppData 'user.ini') -Force -ErrorAction SilentlyContinue
+  }
+
   New-Item -ItemType Directory -Force -Path $profileDir | Out-Null
   New-Item -ItemType Directory -Force -Path (Join-Path $basicDir 'scenes') | Out-Null
 
@@ -135,6 +144,7 @@ function Invoke-KitInstall {
 
   Write-Host 'Copying GreenTV kit package into install root...' -ForegroundColor Cyan
   New-Item -ItemType Directory -Force -Path $InstallRoot | Out-Null
+  Get-ChildItem -LiteralPath $InstallRoot -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
   Copy-Item -Path (Join-Path $PackageRoot '*') -Destination $InstallRoot -Recurse -Force
 
   $template = Get-Content -Raw -Path $TemplatePath
@@ -156,8 +166,9 @@ Invoke-KitInstall
 Configure-ObsDefaults
 $obsExe = Get-ObsExePath
 if ($obsExe) {
+  $obsWorkDir = Split-Path -Parent $obsExe
   Write-Host ('Opening OBS: ' + $obsExe) -ForegroundColor Green
-  Start-Process -FilePath $obsExe | Out-Null
+  Start-Process -FilePath $obsExe -WorkingDirectory $obsWorkDir -ArgumentList @('--profile', 'GreenTV', '--collection', 'GREENTV BROADCASTING KIT') | Out-Null
 } else {
   Write-Host 'OBS executable not found after install.' -ForegroundColor Yellow
 }
