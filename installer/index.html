@@ -114,7 +114,7 @@
   <main class="card">
     <p class="eyebrow">Unlocked installer portal</p>
     <h1>GreenTV Broadcasting Kit</h1>
-    <p class="lead">You are inside the secure installer page. Click the download button below to fetch the CMD bootstrapper that downloads the kit ZIP, runs the OBS installer, and imports the GreenTV scene collection and repo-backed modifications.</p>
+    <p class="lead">You are inside the secure installer page. The bootstrapper below handles the banner, OBS install, and the GreenTV scene collection install on the Windows machine.</p>
 
     <div class="ascii">  ____  _____ _____ _   _ _______ _____
  / ___|/ ____|_   _| \ | |__   __/ ____|
@@ -134,10 +134,9 @@
     <div class="grid">
       <section class="panel">
         <h2 style="margin-top:0;">Download</h2>
-        <p>Use the primary button for the installer CMD. It launches the bootstrapper on Windows.</p>
+        <p>Use the primary button for the installer CMD. It launches the bootstrapper on Windows and downloads everything behind the scenes.</p>
         <div class="actions">
           <a class="button primary" href="/download/install.cmd">Download install.cmd</a>
-          <a class="button secondary" href="/download/kit.zip">Download kit.zip</a>
         </div>
       </section>
 
@@ -145,14 +144,14 @@
         <h2 style="margin-top:0;">Install notes</h2>
         <ul class="list">
           <li>The CMD bootstrapper downloads the latest kit ZIP from this server.</li>
-          <li>The kit installer installs OBS Studio if needed.</li>
+          <li>The CMD bootstrapper also installs OBS if it is missing in the VM.</li>
           <li>The kit installer writes the GreenTV scene collection and bundled assets.</li>
         </ul>
       </section>
     </div>
 
     <p class="note">
-      Path: <code>/installer/</code> · Unlock password: <code>greentvrocks</code> · If needed, use the lock page link to clear the cookie and return to the password prompt.
+      Path: <code>/installer/</code> · Unlock password: <code>greentvrocks</code> · Use the lock page link to clear the cookie and return to the password prompt.
     </p>
     <p class="note"><a class="button secondary" href="/installer/logout">Lock page</a></p>
   </main>

@@ -735,6 +735,7 @@ async def public_status():
             'files': {
                 'install_cmd_template': INSTALLER_INSTALL_CMD_TEMPLATE_PATH.exists(),
                 'public_terminal_file': INSTALLER_TERMINAL_TEXT_PATH.exists(),
+                'public_bootstrap_script': (INSTALLER_PUBLIC_DIR / 'install-bootstrap.ps1').exists(),
                 'local_zip_fallback': INSTALLER_PACKAGE_PATH.exists(),
             },
             'generated_at': datetime.utcnow().isoformat() + 'Z',
