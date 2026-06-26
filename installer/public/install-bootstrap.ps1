@@ -120,10 +120,11 @@ function Invoke-KitInstall {
   Write-Host 'Extracting kit...' -ForegroundColor Cyan
   Expand-Archive -Path $ZipPath -DestinationPath $ExtractDir -Force
 
-  $PackageRoot = Join-Path $ExtractDir 'payload\kit\package'
+  $TopLevelDir = Join-Path $ExtractDir 'GREENTV_BROADCASTING_KIT'
+  $PackageRoot = Join-Path $TopLevelDir 'package'
   $TemplatePath = Join-Path $PackageRoot 'scene-collections\GREENTV_BROADCASTING_KIT.template.json'
-  if (-not (Test-Path $PackageRoot)) {
-    throw 'Package root not found in downloaded kit.'
+  if (-not (Test-Path $TopLevelDir)) {
+    throw 'Downloaded kit root GREENTV_BROADCASTING_KIT not found.'
   }
   if (-not (Test-Path $TemplatePath)) {
     throw 'Scene collection template not found in downloaded kit.'
@@ -144,8 +145,6 @@ function Invoke-KitInstall {
 
   $sceneCollectionPath = Join-Path (Join-Path $env:APPDATA 'obs-studio\basic\scenes') 'GREENTV_BROADCASTING_KIT.json'
   Set-Content -Path $sceneCollectionPath -Value $template -Encoding UTF8
-
-  Configure-ObsDefaults
 
   Write-Host ('Wrote GreenTV scene collection to: ' + $sceneCollectionPath) -ForegroundColor Green
   Write-Host ('Installed kit copied to: ' + $InstallRoot) -ForegroundColor Green

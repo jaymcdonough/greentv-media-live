@@ -676,6 +676,17 @@ async def download_install_cmd(request: Request):
 @app.head('/download/kit.zip')
 async def download_kit_zip(request: Request):
     headers = {'Cache-Control': 'no-store'}
+
+    if INSTALLER_PACKAGE_PATH.exists():
+        headers.update({'X-GreenTV-Installer-Source': 'local-bundled'})
+        if request.method == 'HEAD':
+            return Response(status_code=200, headers=headers)
+        return FileResponse(
+            INSTALLER_PACKAGE_PATH,
+            filename=INSTALLER_PACKAGE_PATH.name,
+            headers={'X-GreenTV-Installer-Source': 'local-bundled', 'Cache-Control': 'no-store'},
+        )
+
     if GITHUB_OWNER and GITHUB_REPO and GITHUB_ASSET_NAME:
         try:
             asset, upstream = fetch_latest_release_asset_stream()
@@ -698,16 +709,6 @@ async def download_kit_zip(request: Request):
             return StreamingResponse(iterator(), media_type=content_type, headers=headers)
         except HTTPException:
             pass
-
-    if INSTALLER_PACKAGE_PATH.exists():
-        headers.update({'X-GreenTV-Installer-Source': 'local-fallback'})
-        if request.method == 'HEAD':
-            return Response(status_code=200, headers=headers)
-        return FileResponse(
-            INSTALLER_PACKAGE_PATH,
-            filename=INSTALLER_PACKAGE_PATH.name,
-            headers={'X-GreenTV-Installer-Source': 'local-fallback', 'Cache-Control': 'no-store'},
-        )
 
     raise HTTPException(status_code=404, detail='Installer package not available')
 
