@@ -5,24 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GREENTV Broadcasting Kit Installer</title>
   <style>
-    body{margin:0;font-family:Arial,sans-serif;background:#071019;color:#edf4fb;min-height:100vh;display:grid;place-items:center;padding:24px}
-    .card{width:min(920px,100%);background:linear-gradient(135deg,rgba(214,178,94,.16),rgba(57,217,138,.10));border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:28px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
-    h1{margin:0 0 10px;font-size:42px}
-    p{line-height:1.6;color:#9cb0c5}
-    label{display:block;margin:18px 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d6b25e;font-weight:700}
-    input,button{font-size:16px;border-radius:14px;border:1px solid #233245;padding:14px 16px}
-    input{width:min(520px,100%);background:#08111b;color:#edf4fb}
-    button{background:linear-gradient(135deg,#d6b25e,#f1d28a);color:#09111a;font-weight:700;cursor:pointer;margin-left:10px}
-    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    .small{font-size:13px;color:#9cb0c5;margin-top:16px}
-    .pill{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#d6b25e}
+    :root { --bg:#071019; --panel:#111822; --line:#233245; --text:#edf4fb; --muted:#9cb0c5; --accent:#d6b25e; --accent2:#3ddc97; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Arial, sans-serif; background: radial-gradient(circle at top, #172231, #071019 60%); color:var(--text); min-height:100vh; display:grid; place-items:center; padding:24px; }
+    .card { width:min(920px,100%); background: linear-gradient(135deg, rgba(214,178,94,.16), rgba(61,220,151,.10)); border:1px solid rgba(255,255,255,.09); border-radius:24px; padding:28px; box-shadow:0 16px 50px rgba(0,0,0,.35); }
+    .pill { display:inline-block; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); padding:6px 10px; border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); }
+    h1 { margin:14px 0 10px; font-size:clamp(2rem,5vw,3.4rem); line-height:1.05; }
+    p { line-height:1.6; color:var(--muted); }
+    label { display:block; margin:18px 0 8px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; }
+    input, button, a.button { font-size:16px; border-radius:14px; border:1px solid var(--line); padding:14px 16px; }
+    input { width:min(520px,100%); background:#08111b; color:var(--text); }
+    button, a.button { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; font-weight:700; cursor:pointer; }
+    button { background:linear-gradient(135deg,#d6b25e,#f1d28a); color:#09111a; }
+    a.button { background:rgba(255,255,255,.08); color:var(--text); }
+    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .small { font-size:13px; color:var(--muted); margin-top:16px; }
+    .grid { display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; margin-top: 22px; }
+    .panel { border-radius:22px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); padding:20px; }
+    .list { margin:0; padding-left:18px; color:#d9e6f5; line-height:1.8; }
+    .ascii {
+      background:#08111b; border:1px solid var(--line); border-radius:18px; padding:16px; color:#88f0b7; line-height:1.2; font-family:"Consolas","Courier New",monospace; font-size:13px; white-space:pre; overflow:auto; margin-top:18px;
+    }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .card { padding:22px; } }
   </style>
 </head>
 <body>
   <main class="card">
-    <div class="pill">greentv.media / installer</div>
+    <span class="pill">greentv.media / installer</span>
     <h1>GREENTV Broadcasting Kit</h1>
-    <p>This is the client-facing installer page. Enter the password to unlock the download and install instructions while the full wizard export is still being finished.</p>
+    <p>This page is password-gated. Unlock it to reveal the download button that fetches the installer CMD for the OBS kit.</p>
+
+    <div class="ascii">  _____ _____ _____ _____ _____ _____   __
+ / ____|  __ \_   _/ ____|  __ \_   _| /_ |
+| |  __| |__) || || |  __| |  | || |     | |
+| | |_ |  _  / | || | |_ | |  | || |     | |
+| |__| | | \ \_| || |__| | |__| || |_    | |
+ \_____|_|  \_\_____\_____|_____/_____|   |_|
+
+GREENTV Broadcasting Kit Installer</div>
+
     <form method="post" action="/installer/unlock">
       <label for="password">Password</label>
       <div class="row">
@@ -30,7 +51,22 @@
         <button type="submit">Unlock Installer</button>
       </div>
     </form>
-    <p class="small">Approved access only. Use the shared password if you were sent the link.</p>
+
+    <div class="grid">
+      <section class="panel">
+        <h2 style="margin-top:0;">What the unlock reveals</h2>
+        <ul class="list">
+          <li>A download button for <code>/download/install.cmd</code></li>
+          <li>A ZIP download for the full broadcast kit</li>
+          <li>Install instructions for OBS + the GreenTV scene collection</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2 style="margin-top:0;">Access note</h2>
+        <p>Approved access only. If the password is correct, the page will switch to the unlocked download view.</p>
+        <p class="small">You can still fetch the ZIP directly if you already have the link, but the intended flow is password gate first, then the install CMD download button.</p>
+      </section>
+    </div>
   </main>
 </body>
 </html>

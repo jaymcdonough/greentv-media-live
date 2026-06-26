@@ -1,8 +1,20 @@
-GreenTV ASII for terminal
-=========================
+Clear-Host
 
-This file is intentionally public so the installer handoff can verify that the
-installer public directory is being served correctly.
+Write-Host @"
+  _____ _____ _____ _____ _____
+ / ____|  __ \_   _/ ____|  __ \
+| |  __| |__) || || |  __| |__) |
+| | |_ |  _  / | || | |_ |  _  /
+| |__| | | \ \_| || |__| | | \ \
+ \_____|_|  \_\_____\_____|_|  \_\
+"@ -ForegroundColor Green
 
-If you can read this over the browser or download route, the installer routes
-are wired correctly.
+Write-Host ""
+Write-Host "GREEN TV — Positive AI-Powered Media Network"
+Write-Host "Powered by Grok • Tavus • ElevenLabs"
+Write-Host "greentv.app • greentv.com • watch.greentv.com"
+Write-Host "MASTER KIT INSTALLER • GREEN DAO • EVE ASSISTANT"
+Write-Host "Version 0.8.4 — June 2026"
+Write-Host "Real-time Voice Guidance with Eve • Ethical AI • Positive Change"
+Write-Host ""
+Write-Host "[ Grok Build Engine Online ] [ Eve Assistant Ready ] [ Neural Connection Stable ] [ Status: ONLINE ]" -ForegroundColor Green

@@ -622,18 +622,35 @@ async def api_create_invoice(
 @app.head('/installer')
 @app.head('/installer/')
 @app.head('/installer/index.html')
-async def installer_home():
-    return RedirectResponse('/download/install.cmd', status_code=302)
+async def installer_home(request: Request):
+    headers = {
+        'Cache-Control': 'no-store',
+        'X-GreenTV-Installer-State': 'unlocked' if request.cookies.get(INSTALLER_COOKIE) == INSTALLER_COOKIE_VALUE else 'locked',
+    }
+    if request.method == 'HEAD':
+        return Response(status_code=200, headers=headers)
+
+    if request.cookies.get(INSTALLER_COOKIE) == INSTALLER_COOKIE_VALUE and INSTALLER_INDEX_PATH.exists():
+        return FileResponse(INSTALLER_INDEX_PATH, headers=headers)
+    if INSTALLER_LOGIN_PATH.exists():
+        return FileResponse(INSTALLER_LOGIN_PATH, headers=headers)
+    return HTMLResponse('<h1>Installer page not found</h1>', status_code=404, headers=headers)
 
 
 @app.post('/installer/unlock')
-async def installer_unlock(password: str | None = Form(None)):
-    return RedirectResponse('/download/install.cmd', status_code=302)
+async def installer_unlock(password: str = Form(...)):
+    if password == INSTALLER_PASSWORD:
+        response = RedirectResponse('/installer', status_code=303)
+        response.set_cookie(INSTALLER_COOKIE, INSTALLER_COOKIE_VALUE, httponly=True, samesite='lax', max_age=60 * 60 * 24 * 7, path='/')
+        return response
+    return RedirectResponse('/installer', status_code=303)
 
 
 @app.get('/installer/logout')
 async def installer_logout():
-    return RedirectResponse('/download/install.cmd', status_code=302)
+    response = RedirectResponse('/installer', status_code=303)
+    response.delete_cookie(INSTALLER_COOKIE, path='/')
+    return response
 
 
 @app.get('/download/install.cmd')
@@ -703,7 +720,7 @@ async def public_status():
             'service': 'greentv-media-installer',
             'public_base_url': PUBLIC_BASE_URL,
             'routes': {
-                '/installer': '/download/install.cmd',
+                '/installer': 'password gate page with unlock button',
                 '/download/install.cmd': 'installer/public/install.cmd',
                 '/download/kit.zip': 'GitHub latest release asset',
                 '/api/public/status': 'JSON status',
@@ -732,7 +749,7 @@ async def installer_public_file(requested_path: str):
 
 @app.get('/installer/download')
 async def installer_download_legacy():
-    return RedirectResponse('/download/kit.zip', status_code=302)
+    return RedirectResponse('/download/install.cmd', status_code=302)
 
 
 @app.get('/health')

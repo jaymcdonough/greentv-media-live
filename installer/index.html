@@ -1,52 +1,160 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GREENTV Broadcasting Kit Installer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenTV Broadcasting Kit - Unlocked</title>
+  <meta name="description" content="GreenTV Broadcasting Kit installer and launch portal." />
   <style>
-    body{margin:0;font-family:Arial,sans-serif;background:#071019;color:#edf4fb;min-height:100vh;display:grid;place-items:center;padding:24px}
-    .card{width:min(920px,100%);background:linear-gradient(135deg,rgba(214,178,94,.16),rgba(57,217,138,.10));border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:28px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
-    h1{margin:0 0 10px;font-size:42px}
-    p{line-height:1.6;color:#9cb0c5}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
-    .tile{background:#0f1722;border:1px solid #233245;border-radius:18px;padding:18px}
-    a.btn,button{display:inline-block;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer}
-    a.btn{background:linear-gradient(135deg,#d6b25e,#f1d28a);color:#09111a}
-    a.alt{background:linear-gradient(135deg,#dbe7f2,#f8fbff);color:#09111a}
-    .small{font-size:13px;color:#9cb0c5;margin-top:16px}
-    code{background:#08111b;border:1px solid #233245;padding:3px 8px;border-radius:8px;color:#edf4fb}
-    ul,ol{color:#9cb0c5;line-height:1.7}
-    .pill{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#d6b25e}
+    :root {
+      --bg: #07111f;
+      --panel: rgba(10, 20, 38, 0.92);
+      --line: rgba(120, 184, 255, 0.18);
+      --green: #67f0a7;
+      --aqua: #64ddff;
+      --text: #f4f7fb;
+      --muted: #bfd0e4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(103,240,167,0.14), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(100,221,255,0.12), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #091423 100%);
+      padding: 24px;
+    }
+    .card {
+      width: min(960px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.38);
+      padding: 28px;
+      backdrop-filter: blur(14px);
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      color: var(--aqua);
+      font-size: .78rem;
+      margin: 0 0 12px;
+    }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.03; }
+    .lead { margin: 14px 0 0; max-width: 72ch; color: var(--muted); line-height: 1.7; font-size: 1.02rem; }
+    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; margin-top: 22px; }
+    .panel {
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      padding: 20px;
+    }
+    .list { margin: 0; padding-left: 18px; color: #d9e6f5; line-height: 1.8; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 14px 20px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    a.button:hover { transform: translateY(-1px); }
+    .primary {
+      background: linear-gradient(90deg, var(--green), var(--aqua));
+      color: #04111d;
+      box-shadow: 0 16px 30px rgba(103,240,167,.16);
+    }
+    .secondary {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+    }
+    .note {
+      margin-top: 18px;
+      color: #9bb0cb;
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .tag {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,.05);
+      font-size: .92rem;
+      color: #e9f3ff;
+    }
+    .ascii {
+      background: rgba(4, 17, 29, 0.72);
+      border: 1px solid rgba(103,240,167,0.18);
+      border-radius: 18px;
+      padding: 16px;
+      color: #8df0bb;
+      line-height: 1.2;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 13px;
+      white-space: pre;
+      overflow: auto;
+      margin-top: 18px;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 22px; }
+    }
   </style>
 </head>
 <body>
   <main class="card">
-    <div class="pill">unlocked</div>
-    <h1>GREENTV Broadcasting Kit</h1>
-    <p>You are inside the secure installer page. Download the kit, run it on the target machine, and use the generated OBS files and startup wrapper it creates.</p>
-    <div class="grid">
-      <div class="tile">
-        <h2>Download</h2>
-        <p>Get the release package from the protected link below.</p>
-        <a class="btn" href="/installer/download">Download kit zip</a>
-      </div>
-      <div class="tile">
-        <h2>Install notes</h2>
-        <ol>
-          <li>Unzip on the target PC.</li>
-          <li>Run the installer as instructed.</li>
-          <li>Confirm the startup wrapper and OBS scene collection are created.</li>
-        </ol>
-      </div>
-      <div class="tile">
-        <h2>Status</h2>
-        <p>Path: <code>/installer/</code></p>
-        <p>Password gate: <code>greentvrocks</code></p>
-        <p class="small">This is the temporary production link until the full wizard export replaces it.</p>
-      </div>
+    <p class="eyebrow">Unlocked installer portal</p>
+    <h1>GreenTV Broadcasting Kit</h1>
+    <p class="lead">You are inside the secure installer page. Click the download button below to fetch the CMD bootstrapper that downloads the kit ZIP, runs the OBS installer, and imports the GreenTV scene collection and repo-backed modifications.</p>
+
+    <div class="ascii">  ____  _____ _____ _   _ _______ _____
+ / ___|/ ____|_   _| \ | |__   __/ ____|
+| |  __| |  __  | | |  \| |  | | | (___
+| | |_ | | |_ | | | | . ` |  | |  \___ \
+| |__| | |__| |_| |_| |\  |  | |  ____) |
+ \_____|\_____|_____|_| \_|  |_| |_____/</div>
+
+    <div class="tagrow">
+      <span class="tag">Client-ready</span>
+      <span class="tag">Password gated</span>
+      <span class="tag">OBS install</span>
+      <span class="tag">Scene collection import</span>
+      <span class="tag">Repo-backed assets</span>
     </div>
-    <p class="small"><a class="alt btn" href="/installer/logout">Lock page</a></p>
+
+    <div class="grid">
+      <section class="panel">
+        <h2 style="margin-top:0;">Download</h2>
+        <p>Use the primary button for the installer CMD. It launches the bootstrapper on Windows.</p>
+        <div class="actions">
+          <a class="button primary" href="/download/install.cmd">Download install.cmd</a>
+          <a class="button secondary" href="/download/kit.zip">Download kit.zip</a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 style="margin-top:0;">Install notes</h2>
+        <ul class="list">
+          <li>The CMD bootstrapper downloads the latest kit ZIP from this server.</li>
+          <li>The kit installer installs OBS Studio if needed.</li>
+          <li>The kit installer writes the GreenTV scene collection and bundled assets.</li>
+        </ul>
+      </section>
+    </div>
+
+    <p class="note">
+      Path: <code>/installer/</code> · Unlock password: <code>greentvrocks</code> · If needed, use the lock page link to clear the cookie and return to the password prompt.
+    </p>
+    <p class="note"><a class="button secondary" href="/installer/logout">Lock page</a></p>
   </main>
 </body>
 </html>
