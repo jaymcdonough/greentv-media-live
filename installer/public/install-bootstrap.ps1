@@ -72,8 +72,8 @@ SceneCollectionFile=$sceneCollectionFile
 
 function Install-Obs {
   if (Test-ObsInstalled) {
-    Write-Host 'OBS already installed.' -ForegroundColor Green
-    return
+    Write-Host 'OBS already installed. Skipping OBS install.' -ForegroundColor Green
+    return $true
   }
 
   $winget = Get-Command winget -ErrorAction SilentlyContinue
@@ -82,7 +82,7 @@ function Install-Obs {
     & winget install --id OBSProject.OBSStudio -e --source winget --silent --disable-interactivity --accept-source-agreements --accept-package-agreements | Write-Host
     if ($LASTEXITCODE -eq 0 -and (Test-ObsInstalled)) {
       Write-Host 'OBS installed via winget.' -ForegroundColor Green
-      return
+      return $true
     }
     Write-Host 'winget did not complete cleanly; falling back to the OBS GitHub installer.' -ForegroundColor Yellow
   }
@@ -109,6 +109,7 @@ function Install-Obs {
   }
 
   Write-Host 'OBS installation verified.' -ForegroundColor Green
+  return $true
 }
 
 function Invoke-KitInstall {
