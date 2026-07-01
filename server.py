@@ -653,15 +653,14 @@ async def installer_logout():
     return response
 
 
-@app.get('/download/gtv_installer.cmd')
-@app.head('/download/gtv_installer.cmd')
-async def download_gtv_installer_cmd(request: Request):
+@app.get('/download/install.cmd')
+@app.head('/download/install.cmd')
+async def download_install_cmd(request: Request):
     if not INSTALLER_INSTALL_CMD_TEMPLATE_PATH.exists():
         raise HTTPException(status_code=404, detail='install.cmd template not found')
     headers = {
-        'Content-Disposition': 'attachment; filename="gtv_installer.cmd"',
+        'Content-Disposition': 'attachment; filename="install.cmd"',
         'Cache-Control': 'no-store',
-        'X-GreenTV-Installer-Route': 'gtv_installer.cmd',
     }
     if request.method == 'HEAD':
         return Response(status_code=200, headers=headers)
@@ -673,10 +672,10 @@ async def download_gtv_installer_cmd(request: Request):
     )
 
 
-@app.get('/download/install.cmd')
-@app.head('/download/install.cmd')
-async def download_install_cmd(request: Request):
-    return RedirectResponse('/download/gtv_installer.cmd', status_code=302)
+@app.get('/download/gtv_installer.cmd')
+@app.head('/download/gtv_installer.cmd')
+async def download_gtv_installer_cmd(request: Request):
+    return RedirectResponse('/download/install.cmd', status_code=302)
 
 
 @app.get('/download/kit.zip')
@@ -729,8 +728,8 @@ async def public_status():
             'public_base_url': PUBLIC_BASE_URL,
             'routes': {
                 '/installer': 'password gate page with unlock button',
-                '/download/gtv_installer.cmd': 'installer/public/install.cmd',
-                '/download/install.cmd': 'legacy redirect -> /download/gtv_installer.cmd',
+                '/download/install.cmd': 'installer/public/install.cmd',
+                '/download/gtv_installer.cmd': 'legacy redirect -> /download/install.cmd',
                 '/download/kit.zip': 'GitHub latest release asset',
                 '/api/public/status': 'JSON status',
             },
